@@ -1,3 +1,15 @@
+<?php
+session_start(); // Rozpocznij sesję, aby mieć dostęp do danych sesji
+
+// Sprawdzenie, czy użytkownik jest zalogowany
+if (!isset($_SESSION['user_id'])) {
+    header("Location: logowanie.html?error=Musisz być zalogowany, aby uzyskać dostęp do tej strony.");
+    exit();
+}
+
+$imie = $_SESSION['user_imie'];
+?>
+
 <!DOCTYPE html>
 <html lang="pl">
     <head>
@@ -53,8 +65,7 @@
                                 </div>
                             </div>
                             <div class="ml-auto hidden sm:block">
-                                <a href="#login-modal" class="hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium bg-primary text-white px-4 py-2 rounded w-full hover:bg-primary-dark transition duration-200">Logowanie</a>
-                                <a href="#register-modal" class="hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium bg-primary text-white px-4 py-2 rounded w-full hover:bg-primary-dark transition duration-200">Rejestracja</a>
+                                <a href="wyloguj.php" class="hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium bg-primary text-white px-4 py-2 rounded w-full hover:bg-primary-dark transition duration-200">Wyloguj Się</a>
                                 <input type="text" placeholder="Szukaj..." class="border border-gray-300 rounded-md py-1 px-2 focus:outline-none focus:ring focus:ring-indigo-500" />
                             </div>
                         </div>
@@ -66,8 +77,7 @@
                         <a href="#" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">O nas</a>
                         <a href="#" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">Usługi</a>
                         <a href="#" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">Kontakt</a>
-                        <a href="#login-modal" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">Logowanie</a>
-                        <a href="#register-modal" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">Rejestracja</a>
+                        <a href="wyloguj.php" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">Wyloguj Się</a>
                         <div class="mt-2">
                             <input type="text" placeholder="Szukaj..." class="border border-gray-300 rounded-md py-1 px-2 focus:outline-none focus:ring focus:ring-indigo-500 w-full" />
                         </div>
@@ -75,9 +85,10 @@
                 </div>
             </nav>
 
-            <div class="relative h-screen bg-cover bg-center" style="background-image: url('src/img/header-image.jpeg')">
+            <div class="relative h-screen bg-cover bg-center" style="background-image: url('../img/header-image.jpeg')">
                 <div class="flex items-center justify-center h-full bg-black bg-opacity-50">
                     <div class="bg-white p-6 rounded-lg shadow-lg space-y-4 w-3/4 md:w-1/2 lg:w-1/3">
+                        <h1 class="text-center font-semibold">Witaj, <?php echo htmlspecialchars($imie); ?>!</h1>
                         <h2 class="text-xl font-bold text-center mb-4">Znajdź przejazd</h2>
                         <div class="flex flex-col space-y-4">
                             <input type="text" placeholder="Skąd" class="border border-gray-300 p-2 rounded w-full" />
@@ -89,64 +100,8 @@
                 </div>
             </div>
         </header>
-        
-        <!-- Modal do logowania -->
-        <div id="login-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-white hidden">
-            <div class="bg-white p-4 rounded-lg shadow-lg max-w-sm w-full mx-4 md:max-w-md lg:max-w-lg">
-                <h2 class="text-xl font-bold text-center mb-4">Logowanie</h2>
-                <form action="src/php/logowanie.php" method="post">
-                    <div class="flex flex-col space-y-4">
-                        <input type="email" placeholder="Email" name="email" class="border border-gray-300 p-2 rounded w-full" required />
-                        <input type="password" placeholder="Hasło" name="haslo" class="border border-gray-300 p-2 rounded w-full" required />
-                    </div>
-                    <!-- Miejsca na komunikaty -->
-                    <div class="flex">
-                        <div id="error-message-login" class="text-red-500 py-2"></div>
-                        <div id="success-message-login" class="text-green-500 py-2"></div>
-                    </div>
-                    <button type="submit" class="bg-primary text-white px-4 py-2 rounded w-full hover:bg-primary-dark transition duration-200">Zaloguj się</button>
-                </form>
-                <hr class="border-t border-gray-300 my-4">
-                <div class="flex mt-4 justify-between">                    
-                    <button class="text-gray-500" onclick="document.getElementById('login-modal').classList.add('hidden');">Zamknij</button>
-                    <p class="text-gray-700">Nie posiadasz Konta? 
-                        <a onclick="document.getElementById('login-modal').classList.add('hidden');"
-                        href="#register-modal" class="font-semibold duration-300">Zarejestruj Się</a>
-                    </p>    
-                </div>     
-            </div>
-        </div>
-        
-        <!-- Modal do rejestracji -->
-        <div id="register-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-white hidden">
-            <div class="bg-white p-4 rounded-lg shadow-lg w-1/2 md:w-1/4">
-                <h2 class="text-xl font-bold text-center mb-4">Rejestracja</h2>
-                <form action="src/php/rejestracja.php" method="post">
-                    <div class="flex flex-col space-y-4">
-                        <input type="text" placeholder="Imię" name="imie" class="border border-gray-300 p-2 rounded w-full" required />
-                        <input type="email" placeholder="Email" name="email" class="border border-gray-300 p-2 rounded w-full" required />
-                        <input type="password" placeholder="Hasło" name="haslo" class="border border-gray-300 p-2 rounded w-full" required />
-                        <input type="password" placeholder="Powtórz Hasło" name="powtorzhaslo" class="border border-gray-300 p-2 rounded w-full" required />
-                    </div>
-        
-                    <!-- Miejsca na komunikaty -->
-                     <div class="flex">
-                         <div id="error-message" class="text-red-500 py-2"></div>
-                         <div id="success-message" class="text-green-500 py-2"></div>
-                     </div>
-                    <button type="submit" class="bg-primary text-white px-4 py-2 rounded w-full hover:bg-primary-dark transition duration-200">Zarejestruj się</button>
-                </form>
-                <hr class="border-t border-gray-300 my-4">
-                <div class="flex mt-4 justify-between">
-                    <button class="text-gray-500" onclick="document.getElementById('register-modal').classList.add('hidden');">Zamknij</button>
-                    <p class="text-gray-700">Posiadasz Konto? 
-                        <a onclick="document.getElementById('register-modal').classList.add('hidden');" 
-                        href="#login-modal" class="font-semibold duration-300">Zaloguj Się</a>
-                    </p>    
-                </div>                
-            </div>
-        </div>
                 
         <script src="src/script.js"></script>
     </body>
 </html>
+
