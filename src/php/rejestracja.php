@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
-        header("Location: ../index.html?error=Ten adres e-mail jest już używany!");
+        header("Location: ../../index.html?error=Ten adres e-mail jest już używany!");
         exit();
     }
 
@@ -40,10 +40,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Wykonanie zapytania
     if ($stmt->execute()) {
-        header("Location: ../index.html?success=Rejestracja powiodła się! Możesz się teraz zalogować.");
+        header("Location: ../../index.html?success=Rejestracja powiodła się! Możesz się teraz zalogować.");
         exit();
     } else {
-        header("Location: ../index.html?error=Błąd: " . $stmt->error);
+        header("Location: ../../index.html?error=Błąd: " . $stmt->error);
         exit();
     }
 

@@ -85,7 +85,7 @@ $imie = $_SESSION['user_imie'];
                 </div>
             </nav>
 
-            <div class="relative h-screen bg-cover bg-center" style="background-image: url('img/header-image.jpeg')">
+            <div class="relative h-screen bg-cover bg-center" style="background-image: url('../img/header-image.jpeg')">
                 <div class="flex items-center justify-center h-full bg-black bg-opacity-50">
                     <div class="bg-white p-6 rounded-lg shadow-lg space-y-4 w-3/4 md:w-1/2 lg:w-1/3">
                         <h1 class="text-center font-semibold">Witaj, <?php echo htmlspecialchars($imie); ?>!</h1>

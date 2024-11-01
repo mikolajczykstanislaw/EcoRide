@@ -32,12 +32,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         } else {
             // Błędne hasło
-            header("Location: ../index.html?error-login=Błędne hasło!");
+            header("Location: ../../index.html?error-login=Błędne hasło!");
             exit();
         }
     } else {
         // Użytkownik nie istnieje
-        header("Location: ../index.html?error-login=Nie znaleziono użytkownika z tym adresem e-mail!");
+        header("Location: ../../index.html?error-login=Nie znaleziono użytkownika z tym adresem e-mail!");
         exit();
     }
 
